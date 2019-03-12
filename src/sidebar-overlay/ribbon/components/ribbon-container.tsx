@@ -122,7 +122,7 @@ class RibbonContainer extends Component<Props> {
                 source="tag"
                 onFilterAdd={this.props.onTagAdd}
                 onFilterDel={this.props.onTagDel}
-                isForRibbon={true}
+                isForRibbon
             />
         )
     }
@@ -136,7 +136,7 @@ class RibbonContainer extends Component<Props> {
                 initSuggestions={this.props.initCollSuggs}
                 onFilterAdd={this.props.onCollectionAdd}
                 onFilterDel={this.props.onCollectionDel}
-                isForRibbon={true}
+                isForRibbon
             />
         )
     }

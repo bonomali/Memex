@@ -83,10 +83,8 @@ class Ribbon extends Component<Props, State> {
     private handleMouseLeave = () => {
         this.props.commentText.length > 0
             ? this.setState({
+                  ...defaultState,
                   showCommentBox: true,
-                  showSearchBox: false,
-                  showTagsPicker: false,
-                  showCollectionsPicker: false,
               })
             : this.setState(defaultState)
     }
@@ -107,9 +105,7 @@ class Ribbon extends Component<Props, State> {
             return
         }
         this.setState(prevState => ({
-            showSearchBox: false,
-            showCollectionsPicker: false,
-            showTagsPicker: false,
+            ...defaultState,
             showCommentBox: !prevState.showCommentBox,
         }))
     }
@@ -191,10 +187,8 @@ class Ribbon extends Component<Props, State> {
                                         )}
                                         onClick={() => {
                                             this.setState(prevState => ({
+                                                ...defaultState,
                                                 showSearchBox: !prevState.showSearchBox,
-                                                showCollectionsPicker: false,
-                                                showTagsPicker: false,
-                                                showCommentBox: false,
                                             }))
                                             this.inputQueryEl.focus()
                                         }}
@@ -303,10 +297,8 @@ class Ribbon extends Component<Props, State> {
                                         )}
                                         onClick={() =>
                                             this.setState(prevState => ({
-                                                showSearchBox: false,
-                                                showCollectionsPicker: false,
+                                                ...defaultState,
                                                 showTagsPicker: !prevState.showTagsPicker,
-                                                showCommentBox: false,
                                             }))
                                         }
                                     />
@@ -330,10 +322,8 @@ class Ribbon extends Component<Props, State> {
                                         )}
                                         onClick={() =>
                                             this.setState(prevState => ({
-                                                showSearchBox: false,
+                                                ...defaultState,
                                                 showCollectionsPicker: !prevState.showCollectionsPicker,
-                                                showTagsPicker: false,
-                                                showCommentBox: false,
                                             }))
                                         }
                                     />
