@@ -340,7 +340,7 @@ class Ribbon extends Component<Props, State> {
                         </div>
                         <div className={styles.settingsActions}>
                             <ButtonTooltip
-                                tooltipText="Disable this mini sidebar"
+                                tooltipText="Disable this ribbon"
                                 position="left"
                             >
                                 <button
