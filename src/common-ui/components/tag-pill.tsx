@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, PureComponent } from 'react'
 import cx from 'classnames'
 
-const styles = require('./TagPill.css')
+const styles = require('./tag-holder.css')
 
 export interface Props {
     value: string
