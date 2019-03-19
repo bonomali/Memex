@@ -18,7 +18,7 @@ class TagPill extends PureComponent<Props> {
 
     private get tagClass() {
         return cx(styles.tagname, {
-            [styles.notExpanded]: !this.props.noBg,
+            [styles.greyBorder]: this.props.noBg,
         })
     }
 

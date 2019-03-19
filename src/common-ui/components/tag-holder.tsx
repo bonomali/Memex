@@ -21,6 +21,10 @@ class TagHolder extends PureComponent<Props, {}> {
             handleTagBtnClick,
         } = this.props
 
+        if (!tags.length) {
+            return null
+        }
+
         const pills = tags
             .slice(0, maxTagsLimit)
             .map((tag, i) => (

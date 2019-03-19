@@ -5,19 +5,16 @@
 }
 
 .tagname {
-    color: #3eb995;
-    padding: 2px 9px 3px 9px;
-    border-radius: 3px;
-    font-size: 13px;
+    composes: tagPill from '../elements.css';
 }
 
-.notExpanded {
-    composes: lightBlueBackground from '../colors.css';
-    color: white;
-    margin-left: 5px;
-    max-width: 300px;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.greyBorder {
+    background: transparent;
+    color: grey;
+    border: 1px solid grey;
+    opacity: 0.4;
+
+    &:hover {
+        opacity: 0.8;
+    }
 }
