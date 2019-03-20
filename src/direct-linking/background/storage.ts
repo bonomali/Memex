@@ -250,20 +250,6 @@ export default class AnnotationStorage extends FeatureStorage {
             .findOneObject<Annotation>({ url })
     }
 
-    async getAnnotationsByUrl({
-        pageUrl,
-        limit = 10,
-        skip = 0,
-    }: {
-        pageUrl: string
-        limit?: number
-        skip?: number
-    }) {
-        return this.storageManager
-            .collection(this._annotationsColl)
-            .findObjects<Annotation>({ pageUrl }, { skip, limit })
-    }
-
     async createAnnotation({
         pageTitle,
         pageUrl,

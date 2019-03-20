@@ -150,47 +150,6 @@ export class AnnotationsSearchPlugin extends StorageBackendPlugin<
         return results
     }
 
-    // The main logic
-    private async list(
-        { limit = 10, skip = 0, ...params }: AnnotSearchParams,
-        {
-            innerLimitMultiplier,
-            isUrlBased,
-        }: {
-            innerLimitMultiplier: number
-            isUrlBased?: boolean
-        },
-    ): Promise<Annotation[]> {
-        const innerLimit = limit * innerLimitMultiplier
-
-        let innerSkip = skip * innerLimitMultiplier
-
-        let results: string[] = []
-        let continueLookup: boolean
-
-        const queryAnnots = (offset = innerSkip) =>
-            this.listWithUrl(params)
-                .offset(offset)
-                .limit(innerLimit)
-
-        do {
-            // The results found in this iteration
-            let innerResults: string[] = []
-
-            innerResults = await queryAnnots(
-                isUrlBased ? 0 : innerSkip,
-            ).primaryKeys()
-            continueLookup = innerResults.length >= innerLimit
-            innerSkip += innerLimit
-
-            innerResults = await this.filterResults(innerResults, params)
-
-            results = [...results, ...innerResults]
-        } while (continueLookup)
-
-        return this.mapUrlsToAnnots(results)
-    }
-
     private async calcHardLowerTimeBound({ startDate }: AnnotSearchParams) {
         const annotsRelease = startDate
             ? moment(startDate)
@@ -348,12 +307,34 @@ export class AnnotationsSearchPlugin extends StorageBackendPlugin<
     }
 
     async listAnnotsByPage(
-        params: AnnotSearchParams,
+        { limit = 10, skip = 0, ...params }: AnnotSearchParams,
         innerLimitMultiplier = AnnotationsSearchPlugin.DEF_INNER_LIMIT_MULTI,
     ): Promise<Annotation[]> {
-        return this.list(params, {
-            innerLimitMultiplier,
-            isUrlBased: true,
-        })
+        const innerLimit = limit * innerLimitMultiplier
+
+        let results: string[] = []
+        let continueLookup: boolean
+
+        do {
+            // The results found in this iteration
+            let innerResults: string[] = []
+
+            innerResults = await this.listWithUrl(params)
+                .limit(innerLimit)
+                .primaryKeys()
+
+            continueLookup = innerResults.length >= innerLimit
+
+            innerResults = await this.filterResults(innerResults, params)
+
+            results = [...results, ...innerResults]
+        } while (continueLookup)
+
+        // Cut off any excess
+        if (results.length > limit) {
+            results = [...results].slice(skip, skip + limit)
+        }
+
+        return this.mapUrlsToAnnots(results)
     }
 }

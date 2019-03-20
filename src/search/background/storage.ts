@@ -171,40 +171,6 @@ export default class SearchStorage extends FeatureStorage {
         return [normalizedResults, pagesByUrl]
     }
 
-    async listAnnotations(params: AnnotSearchParams): Promise<Annotation[]> {
-        const results: Annotation[] = await this.storageManager.operation(
-            AnnotationsSearchPlugin.LIST_BY_PAGE_OP_ID,
-            AnnotationsSearchPlugin,
-        )
-
-        return this.attachDisplayDataToAnnots(results)
-    }
-
-    // TODO: Hook into annotations search to enable this without the clustering
-    async searchAnnots(
-        params: AnnotSearchParams,
-    ): Promise<Annotation[] | AnnotPage[]> {
-        // let results: Annotation[] = await this.storageManager.operation(
-        //     AnnotationsSearchPlugin.SEARCH_OP_ID,
-        //     params,
-        // )
-
-        // results = await this.attachDisplayDataToAnnots(results)
-
-        // if (params.includePageResults) {
-        //     const pages = await this.mapAnnotsToPages(
-        //         results,
-        //         params.maxAnnotsPerPage ||
-        //             AnnotationsSearchPlugin.MAX_ANNOTS_PER_PAGE,
-        //     )
-
-        //     return this.attachDisplayTimeToPages(pages, params.endDate)
-        // }
-
-        // return results.map(reshapeAnnotForDisplay as any) as any
-        return []
-    }
-
     async searchPages(params: AnnotSearchParams): Promise<AnnotPage[]> {
         const searchParams = reshapeParamsForOldSearch(params)
 
@@ -218,5 +184,14 @@ export default class SearchStorage extends FeatureStorage {
         )
 
         return this.attachDisplayTimeToPages(pages, params.endDate)
+    }
+
+    async getAllAnnotationsByUrl(params: AnnotSearchParams) {
+        const results: Annotation[] = await this.storageManager.operation(
+            AnnotationsSearchPlugin.LIST_BY_PAGE_OP_ID,
+            params,
+        )
+
+        return results
     }
 }
