@@ -14,7 +14,7 @@ import {
 import { Annotation } from 'src/direct-linking/types'
 import { PageUrlMapperPlugin } from './page-url-mapper'
 import { reshapeParamsForOldSearch } from './utils'
-import { AnnotationsListPlugin } from './annots-list'
+import { AnnotationsSearchPlugin } from './annots-search'
 import { Tag, Bookmark } from 'src/search/models'
 
 export interface SearchStorageProps {
@@ -123,7 +123,7 @@ export default class SearchStorage extends FeatureStorage {
             number,
             Map<string, Annotation[]>
         > = await this.storageManager.operation(
-            AnnotationsListPlugin.LIST_BY_DAY_OP_ID,
+            AnnotationsSearchPlugin.LIST_BY_DAY_OP_ID,
             params,
         )
 
@@ -173,8 +173,8 @@ export default class SearchStorage extends FeatureStorage {
 
     async listAnnotations(params: AnnotSearchParams): Promise<Annotation[]> {
         const results: Annotation[] = await this.storageManager.operation(
-            AnnotationsListPlugin.LIST_BY_PAGE_OP_ID,
-            params,
+            AnnotationsSearchPlugin.LIST_BY_PAGE_OP_ID,
+            AnnotationsSearchPlugin,
         )
 
         return this.attachDisplayDataToAnnots(results)

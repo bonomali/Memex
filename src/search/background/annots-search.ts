@@ -9,7 +9,7 @@ import { Annotation } from 'src/direct-linking/types'
 import AnnotsStorage from 'src/direct-linking/background/storage'
 const moment = require('moment-timezone')
 
-export class AnnotationsListPlugin extends StorageBackendPlugin<
+export class AnnotationsSearchPlugin extends StorageBackendPlugin<
     DexieStorageBackend
 > {
     static LIST_OP_ID = 'memex:dexie.listAnnotations'
@@ -21,12 +21,12 @@ export class AnnotationsListPlugin extends StorageBackendPlugin<
         super.install(backend)
 
         backend.registerOperation(
-            AnnotationsListPlugin.LIST_BY_PAGE_OP_ID,
+            AnnotationsSearchPlugin.LIST_BY_PAGE_OP_ID,
             this.listAnnotsByPage.bind(this),
         )
 
         backend.registerOperation(
-            AnnotationsListPlugin.LIST_BY_DAY_OP_ID,
+            AnnotationsSearchPlugin.LIST_BY_DAY_OP_ID,
             this.listAnnotsByDay.bind(this),
         )
     }
@@ -227,7 +227,7 @@ export class AnnotationsListPlugin extends StorageBackendPlugin<
         const annotsByDays = new Map<number, Annotation[]>()
 
         for (const annot of annots) {
-            const date = moment(annot.createdWhen)
+            const date = moment(annot.lastEdited)
                 .startOf('day')
                 .toDate()
             const existing = annotsByDays.get(date.getTime()) || []
@@ -349,7 +349,7 @@ export class AnnotationsListPlugin extends StorageBackendPlugin<
 
     async listAnnotsByPage(
         params: AnnotSearchParams,
-        innerLimitMultiplier = AnnotationsListPlugin.DEF_INNER_LIMIT_MULTI,
+        innerLimitMultiplier = AnnotationsSearchPlugin.DEF_INNER_LIMIT_MULTI,
     ): Promise<Annotation[]> {
         return this.list(params, {
             innerLimitMultiplier,

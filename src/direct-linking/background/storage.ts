@@ -282,6 +282,7 @@ export default class AnnotationStorage extends FeatureStorage {
                 body,
                 selector,
                 createdWhen,
+                lastEdited: createdWhen,
                 url,
             })
     }
