@@ -95,6 +95,23 @@
     background-position-y: 4px;
 }
 
+.bookmarkIcon {
+    background-image: url('/img/star_full.svg');
+    opacity: 0.8;
+    background-size: 18px;
+    background-position-y: 3px;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.notBookmark {
+    background-image: url('/img/star_empty.svg');
+    background-size: 18px;
+    background-position-y: 3px;
+}
+
 .container:hover .commonIcon {
     opacity: 0.6;
 }

@@ -45,6 +45,14 @@ const DefaultFooter = ({
                         trashIconClickHandler()
                     }}
                 />
+                <button
+                    className={cx(boxStyles.commonIcon, boxStyles.notBookmark)}
+                    title="Bookmark note"
+                    onClick={e => {
+                        e.stopPropagation()
+                        // bookmarkIconHandler()
+                    }}
+                />
                 {/* <button
                     className={cx(styles.commonIcon, styles.shareIcon)}
                     title="Share this note"
